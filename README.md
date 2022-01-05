@@ -15,3 +15,6 @@ To create reports of new injuries run ```python report_injury.py injury_area inj
 
 If for some unfathonable reason you want to create your own tumblr blog keeping track of this (or something equally frivolous), use the [tumblr api](https://www.tumblr.com/docs/en/api/v2) to register an application and get your own auth tokens.
 
+---
+PS: @Kelvin stop injuring yourself <3
+
