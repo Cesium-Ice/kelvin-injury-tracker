@@ -11,6 +11,13 @@ def get_client():
   )
   return client
 
+def check_pinned(client, blogName, currday):
+  pinned = client.posts(blogName, tag = 'pinned')['posts'][0] 
+  pinned_id = pinned['id']
+  max_day = int(pinned['body'].split('<p><b>')[1].strip('</b></p>'))
+  if (currday > max_day):
+    client.edit_post(blogName, id = pinned_id, type='text', body = '<p><b>{}</b></p>'.format(currday))
+
 #reblog injury post after x time 
 def get_update(client, blogName):
   if len(client.posts(blogName, tag = 'reblog')['posts']) == 0:
@@ -33,13 +40,18 @@ def get_update(client, blogName):
     curr_day = int(prev_day) + 1
     reblog_text = "Days Since Last Injury: {}".format(curr_day)
     client.reblog(blogName, id=rb_id, reblog_key=rb_key, comment=reblog_text, tags=['reblog'])
+    check_pinned(client, blogName, curr_day)
+
   else:
     # print ('reblog injury')
     reblog_text = "Days Since Last Injury: 1"
     client.reblog(blogName, id=injury_id, reblog_key=injury_key, comment=reblog_text, tags=['reblog'])
 
+
+
 #run update  
 client = get_client()
 blogName = 'kelvin-injury-tracker'
 get_update(client, blogName)
+# check_pinned(client, blogName, 10)
 
